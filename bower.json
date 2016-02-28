@@ -1,0 +1,43 @@
+{
+  "name": "ctrl-alt-library",
+  "description": "Online library for computer science books in the public domain.",
+  "main": "app.js",
+  "authors": [
+    "byDeinon"
+  ],
+  "license": "GPL-3.0",
+  "keywords": [
+    "library",
+    "express",
+    "science"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.5.0"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.min.css",
+        "less/bootstrap.less"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "less/font-awesome.less",
+        "css/font-awesome.min.css",
+        "scss/font-awesome.scss"
+      ]
+    }
+  }
+}
