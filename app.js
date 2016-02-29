@@ -9,13 +9,24 @@ app.set('views',('./src/views'));
 
 app.set('view engine', 'ejs');
 
-app.get('/', function(req, res) {
-  res.render('index', {title: "Home", list: ['alpha','theta']});
-});
+var nav = [
+      {Link: '/Books',Text: 'Books'},
+      {Link:'/Authors',Text:'Authors'}
+    ]
 
-app.get('/books', function(req, res) {
-  res.send('Books');
-});
+var bookRouter = require('./src/routes/bookRoutes')(nav);
+
+app.get('/', function(req, res) {
+  res.render('index', {
+    title: "Home",
+    nav: [
+      {Link: '/Books',Text: 'Books'},
+      {Link:'/Authors',Text:'Authors'}
+    ]
+    });
+  });
+
+app.use('/Books', bookRouter);
 
 app.listen(port, function(){
   console.log('Running server on port ' + port);
