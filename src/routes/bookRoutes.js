@@ -1,54 +1,47 @@
 var express = require('express');
-
 var bookRouter = express.Router();
+var mongodb = require('mongodb').MongoClient;
+var objectId = require('mongodb').ObjectID;
 
-var router = function(nav){
+var router = function(nav) {
 
-var books = [
-  {title:'Digital Circuit Projects: An Overview of Digital Circuits Through Implementing Integrated Circuits',
-  genre:'Hardware',
-  author:'Charles W. Kann',
-   authors:'',
-   release:2014,
-   read:false
-  },
-  {title:'How to think like a computer scientist',
-  genre:'Theory',
-  author:'Alan B. Downey',
-   authors:'',
-   release:2012,
-   read:false
-  },
-  {title:'Bitcoin and Cryptocurrency Technologies',
-  genre:'Software',
-  author:'',
-   authors:['A. Narayanan', 'J. Bonneau', 'E. Felten',
-'A. Miller', 'S. Goldfeder'],
-   read:false
-  }
-];
-  
-bookRouter.route('/')
-          .get(function(req, res){
-            res.render('bookListView', {
-            title: "Books",
-            nav: nav,
-              books:books
+    bookRouter.route('/')
+        .get(function(req, res) {
+            var url = 'mongodb://localhost:27017/ctrllib';
+            mongodb.connect(url, function(err, db) {
+                var collection = db.collection('books');
+                collection.find({}).toArray(function(err, results) {
+                    res.render('bookListView', {
+                        title: "Books",
+                        nav: nav,
+                        books: results
+                    });
+                    console.log(results);
+                });
             });
-          });
+        });
+    bookRouter.route('/:id')
+        .get(function(req, res) {
+            var id = new objectId(req.params.id);
+            var url = 'mongodb://localhost:27017/ctrllib';
 
-bookRouter.route('/:id')
-          .get(function(req, res){
-            var id = req.params.id;
-            res.render('bookView', {
-            title: "Books",
-            nav: nav,
-              book:books[id]
+            mongodb.connect(url, function(err, db) {
+
+                var collection = db.collection('books');
+
+                collection.findOne({
+                        _id: id
+                    },
+                    function(err, results) {
+                        res.render('bookView', {
+                            title: 'Books',
+                            nav: nav,
+                            book: results
+                        });
+                    });
             });
-          });
-  
-  return bookRouter;
-  
-}
+        });
+    return bookRouter;
+};
 
 module.exports = router;

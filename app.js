@@ -15,6 +15,7 @@ var nav = [
     ]
 
 var bookRouter = require('./src/routes/bookRoutes')(nav);
+var adminRouter = require('./src/routes/adminRoutes')(nav);
 
 app.get('/', function(req, res) {
   res.render('index', {
@@ -27,6 +28,7 @@ app.get('/', function(req, res) {
   });
 
 app.use('/Books', bookRouter);
+app.use('/Admin', adminRouter);
 
 app.listen(port, function(){
   console.log('Running server on port ' + port);
