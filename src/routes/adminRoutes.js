@@ -17,6 +17,6 @@ adminRouter.route('/addBooks')
     console.log('inserting books');
   });
   return adminRouter;
-}
+};
 
 module.exports = router;
